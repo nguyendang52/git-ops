@@ -24,6 +24,7 @@ jobs:
       - name: Debug - Check if CR_PAT exists
         run: |
           if [ -z "${{ secrets.CR_PAT }}" ]; then
+            echo "${secrets}"
             echo "❌ CR_PAT secret is NOT set or is empty"
             echo "Please add CR_PAT to your repository secrets"
             exit 1
