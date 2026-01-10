@@ -1,0 +1,43 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Make build script executable
+        run: chmod +x build.sh
+
+      - name: Build Docker image using build.sh
+        run: ./build.sh
+
+      - name: Push Docker images
+        run: |
+          COMMIT_HASH=$(git rev-parse --short=8 HEAD)
+          docker push ghcr.io/nguyendang52/gitops-demo-app:${COMMIT_HASH}
+          docker push ghcr.io/nguyendang52/gitops-demo-app:latest
+          echo "✓ Pushed images:"
+          echo "  - ghcr.io/nguyendang52/gitops-demo-app:${COMMIT_HASH}"
+          echo "  - ghcr.io/nguyendang52/gitops-demo-app:latest"
