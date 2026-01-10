@@ -30,6 +30,7 @@ jobs:
           else
             echo "✓ CR_PAT secret exists"
             echo "Length: ${#CR_PAT}"
+            echo "123"
           fi
         env:
           CR_PAT: ${{ secrets.CR_PAT }}
