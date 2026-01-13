@@ -1,4 +1,4 @@
-# Use official Node.js runtime as base image 123
+# Use official Node.js runtime as base image
 FROM node:18-alpine
 
 # Set working directory
