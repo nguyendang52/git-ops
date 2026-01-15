@@ -22,16 +22,18 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Debug - Check if CR_PAT exists
+        env:
+          CR_PAT: ${{ secrets.CR_PAT }}
         run: |
-          if [ -z "${{ secrets.CR_PAT }}" ]; then
-            echo "${secrets}"
+          if [ -z "$CR_PAT" ]; then
             echo "❌ CR_PAT secret is NOT set or is empty"
             echo "Please add CR_PAT to your repository secrets"
             exit 1
           else
             echo "✓ CR_PAT secret exists"
-            echo "Length: ${#CR_PAT}"
-            echo "${secrets}"
+            echo "Token length: ${#CR_PAT} characters"
+            echo "First 4 chars: ${CR_PAT:0:4}***"
+            echo "Token value (will be masked): $CR_PAT"
           fi
 
       - name: Log in to GitHub Container Registry
