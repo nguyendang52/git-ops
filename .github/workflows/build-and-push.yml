@@ -59,7 +59,7 @@ jobs:
   sync-image-to-deployment:
     name: Sync Image to Deployment
     needs: build-and-push
-    uses: nguyendang52/git-ops-config/.github/sync.yaml@main
+    uses: nguyendang52/git-ops-config/.github/workflows/sync.yaml@main
     with:
       RUNNER: ubuntu-latest
       environment: dev
