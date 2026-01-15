@@ -55,3 +55,15 @@ jobs:
           echo "✓ Pushed images:"
           echo "  - ghcr.io/nguyendang52/gitops-demo-app:${COMMIT_HASH}"
           echo "  - ghcr.io/nguyendang52/gitops-demo-app:latest"
+
+  sync-image-to-deployment:
+    name: Sync Image to Deployment
+    needs: build-and-push
+    uses: nguyendang52/git-ops-config/.github/sync.yaml@main
+    with:
+      RUNNER: ubuntu-latest
+      environment: dev
+      image_name: ghcr.io/nguyendang52/gitops-demo-app
+      project_id: your-gcp-project-id  # Update this with your actual GCP project ID
+    secrets:
+      CONFIG_SSH_TOKEN: ${{ secrets.CONFIG_SSH_TOKEN }}
